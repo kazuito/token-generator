@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Second Moment</title>
+   <link rel="shortcut icon" href="https://ucarecdn.com/e8b17dc6-6265-4778-ac13-fa3637186c5a/" type="image/x-icon" />
+   <!-- <link rel="icon" href="" sizes="32x32" />
+   <link rel="icon" href="" sizes="48x48" />
+   <link rel="icon" href="" sizes="96x96" /> -->
+   <link rel="icon" href="https://ucarecdn.com/e8b17dc6-6265-4778-ac13-fa3637186c5a/" sizes="144x144" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="result-section">
+        <div class="result-input-wrapper">
+          <input
+            type="text"
+            v-model="token_result"
+            class="result-input-box"
+            readonly
+          />
+        </div>
+        <div class="btn-wrapper">
+          <button class="copy-btn" @click="copyToClipboard">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M11.6666 2.33334H23.3333C23.9522 2.33334 24.5456 2.57918 24.9832 3.01676C25.4208 3.45435 25.6666 4.04784 25.6666 4.66668V16.3333C25.6666 16.9522 25.4208 17.5457 24.9832 17.9833C24.5456 18.4208 23.9522 18.6667 23.3333 18.6667H21V9.33334C21 8.71451 20.7541 8.12101 20.3166 7.68343C19.879 7.24584 19.2855 7.00001 18.6666 7.00001H9.33331V4.66668C9.33331 4.04784 9.57915 3.45435 10.0167 3.01676C10.4543 2.57918 11.0478 2.33334 11.6666 2.33334ZM4.66665 9.33334H16.3333C17.6201 9.33334 18.6666 10.3798 18.6666 11.6667V23.3333C18.6666 24.6202 17.6201 25.6667 16.3333 25.6667H4.66665C3.37981 25.6667 2.33331 24.6202 2.33331 23.3333V11.6667C2.33331 10.3798 3.37981 9.33334 4.66665 9.33334Z"
+                fill="#ffffff"
+              />
+            </svg>
+            <span class="popup-tooltip">
+              {{tooltip_text_copy}}
+            </span>
+          </button>
+          <button class="submit-btn" @click="submitted">
+            <svg
+              width="24"
+              height="26"
+              viewBox="0 0 24 26"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.42076 20.411C3.44066 17.9168 2.10003 12.6949 4.44379 8.60142C5.36087 6.99159 6.77387 5.72142 8.47195 4.98042L7.61747 2.16845C5.21363 3.13404 3.20736 4.8848 1.92521 7.13577C-1.21609 12.6187 0.605677 19.6252 5.9778 22.9323L4.24084 25.9628L11.8778 24.3572L9.72189 16.3934L7.42076 20.411ZM12.1234 1.64189L14.2793 9.60574L16.5808 5.58944C20.5616 8.08638 21.9022 13.3083 19.5577 17.3991C18.641 19.0091 17.2279 20.2794 15.5296 21.0201L16.3837 23.8307C18.7874 22.8647 20.794 21.1145 22.0777 18.8643C25.2169 13.3791 23.3951 6.37255 18.0237 3.06815L19.76 0.0349121L12.1234 1.64189Z"
+                fill="#ffffff"
+              />
+            </svg>
+            <span class="popup-tooltip"></span>
+          </button>
+        </div>
+      </div>
+      <div class="option-section">
+        <div class="opt-left-container">
+          <div class="opt-letters">
+            <h2>Letters</h2>
+            <ul>
+              <li>
+                <input
+                  type="checkbox"
+                  class="opt-cb"
+                  id="cb-lowercase"
+                  v-model="options.lowercase"
+                />
+                <div class="label-wrapper">
+                  <label for="cb-lowercase">Lowercase</label>
+                  <span class="opt-example">a b c d e ..</span>
+                </div>
+              </li>
+              <li>
+                <input
+                  type="checkbox"
+                  class="opt-cb"
+                  id="cb-uppercase"
+                  v-model="options.uppercase"
+                />
+                <div class="label-wrapper">
+                  <label for="cb-uppercase">Uppercase</label>
+                  <span class="opt-example">A B C D E ..</span>
+                </div>
+              </li>
+              <li>
+                <input
+                  type="checkbox"
+                  class="opt-cb"
+                  id="cb-number"
+                  v-model="options.number"
+                />
+                <div class="label-wrapper">
+                  <label for="cb-number">Number</label>
+                  <span class="opt-example">1 2 3 4 5 ..</span>
+                </div>
+              </li>
+              <li>
+                <input
+                  type="checkbox"
+                  class="opt-cb"
+                  id="cb-symbol"
+                  v-model="options.symbol"
+                />
+                <div class="label-wrapper">
+                  <label for="cb-symbol">Symbol</label>
+                  <span class="opt-example">@ # & ! ? ..</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="opt-exclusions">
+            <h2>Exclusions</h2>
+            <ul>
+              <li>
+                <input
+                  type="checkbox"
+                  class="opt-cb"
+                  id="cb-ambiguous"
+                  v-model="options.ex_ambiguous"
+                />
+                <div class="label-wrapper">
+                  <label for="cb-ambiguous">Ambiguous letters</label>
+                  <span class="opt-example">l I 1 o O 0</span>
+                </div>
+              </li>
+              <li>
+                <input
+                  type="checkbox"
+                  class="opt-cb"
+                  id="cb-unwise"
+                  v-model="options.ex_unwise"
+                />
+                <div class="label-wrapper">
+                  <label for="cb-unwise">Unwise symbols in URL</label>
+                  <span class="opt-example unwise-tip">
+                    Any symbol except - and _
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="opt-right-container">
+          <div class="opt-length">
+            <h2
+              class="opt-length-h2"
+              @mouseDown="lengthMousedown"
+              @touchstart="lengthMousedown"
+            >
+              Length
+            </h2>
+            <input
+              type="number"
+              v-model="token_length"
+              :class="token_length_validation"
+            />
+          </div>
+
+          <div class="opt-custom">
+            <h2>Custom Letters</h2>
+            <textarea
+              placeholder="ABCDE12345@#&!?"
+              v-model="letters.custom"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="curtain"></div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
