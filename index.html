@@ -1,19 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" color-scheme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Second Moment</title>
-   <link rel="shortcut icon" href="https://imgur.com/a/Q5Ppp2j" type="image/x-icon" />
-   <!-- <link rel="icon" href="" sizes="32x32" />
+    <link
+      rel="shortcut icon"
+      href="https://imgur.com/a/Q5Ppp2j"
+      type="image/x-icon"
+    />
+    <!-- <link rel="icon" href="" sizes="32x32" />
    <link rel="icon" href="" sizes="48x48" />
    <link rel="icon" href="" sizes="96x96" /> -->
-   <link rel="icon" href="https://ucarecdn.com/e8b17dc6-6265-4778-ac13-fa3637186c5a/" sizes="144x144" />
+    <link
+      rel="icon"
+      href="https://ucarecdn.com/e8b17dc6-6265-4778-ac13-fa3637186c5a/"
+      sizes="144x144"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://unpkg.com/vue@3"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <style>
+      body {
+        background-color: #0e0e0e;
+      }
+    </style>
     <div id="app">
       <div class="result-section">
         <div class="result-input-wrapper">
@@ -40,9 +53,7 @@
                 fill="#ffffff"
               />
             </svg>
-            <span class="popup-tooltip">
-              {{tooltip_text_copy}}
-            </span>
+            <span class="popup-tooltip"> {{tooltip_text_copy}} </span>
           </button>
           <button class="submit-btn" @click="submitted">
             <svg
@@ -72,6 +83,7 @@
                   class="opt-cb"
                   id="cb-lowercase"
                   v-model="options.lowercase"
+                  @change="saveOption(option_names.lowercase)"
                 />
                 <div class="label-wrapper">
                   <label for="cb-lowercase">Lowercase</label>
@@ -84,6 +96,7 @@
                   class="opt-cb"
                   id="cb-uppercase"
                   v-model="options.uppercase"
+                  @change="saveOption(option_names.uppercase)"
                 />
                 <div class="label-wrapper">
                   <label for="cb-uppercase">Uppercase</label>
@@ -96,6 +109,7 @@
                   class="opt-cb"
                   id="cb-number"
                   v-model="options.number"
+                  @change="saveOption(option_names.number)"
                 />
                 <div class="label-wrapper">
                   <label for="cb-number">Number</label>
@@ -108,6 +122,7 @@
                   class="opt-cb"
                   id="cb-symbol"
                   v-model="options.symbol"
+                  @change="saveOption(option_names.symbol)"
                 />
                 <div class="label-wrapper">
                   <label for="cb-symbol">Symbol</label>
@@ -125,6 +140,7 @@
                   class="opt-cb"
                   id="cb-ambiguous"
                   v-model="options.ex_ambiguous"
+                  @change="saveOption(option_names.ex_ambiguous)"
                 />
                 <div class="label-wrapper">
                   <label for="cb-ambiguous">Ambiguous letters</label>
@@ -137,6 +153,7 @@
                   class="opt-cb"
                   id="cb-unwise"
                   v-model="options.ex_unwise"
+                  @change="saveOption(option_names.ex_unwise)"
                 />
                 <div class="label-wrapper">
                   <label for="cb-unwise">Unwise symbols in URL</label>
@@ -161,6 +178,7 @@
               type="number"
               v-model="token_length"
               :class="token_length_validation"
+              @input="saveOption('token_length')"
             />
           </div>
 
@@ -169,6 +187,7 @@
             <textarea
               placeholder="ABCDE12345@#&!?"
               v-model="letters.custom"
+              @input="saveOption('custom-letter')"
             ></textarea>
           </div>
         </div>

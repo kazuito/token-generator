@@ -3,11 +3,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
 
 :root {
+  --bg-color: #ffffff;
   --light-gray: #cacaca;
   --primary-color: #4894ff;
   --secondary-color: #fbbc05;
+  --result-input-border: 1px solid var(--light-gray);
   --box-shadow-1: 1px 1px 1px 1.6px rgba(207, 207, 207, 0.394),
     1px 1px 2px 1px rgba(207, 207, 207, 0.257);
+}
+
+html[color-scheme="dark"] {
+  --bg-color: #1b1b1b;
+  --light-gray: #5f5f5f;
+  --primary-color: #496791;
+  --result-input-border: none;
+  --text-box-bg: #2f2f2f;
+  --check-btn-face: #d7d7d7;
+  --box-shadow-1: none;
+  --primary-text-color: #e0e0e0;
+  --invalid-bg: rgb(114, 66, 66);
+  --invalid-text: rgb(250, 198, 198);
 }
 
 /*  */
@@ -15,8 +30,10 @@
   box-sizing: border-box;
 }
 body {
+  background: var(--bg-color) !important;
   margin: 0;
   font-family: "Roboto", Arial, sans-serif;
+  color: var(--primary-text-color);
 }
 body.cursor-e-resize {
   cursor: e-resize !important;
@@ -24,6 +41,13 @@ body.cursor-e-resize {
 ul {
   padding: 0;
   list-style-type: none;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  color: var(--primary-text-color);
+  background-color: var(--text-box-bg);
 }
 
 /* main */
@@ -52,23 +76,12 @@ ul {
   padding-left: 12px;
   font-size: 1.2rem;
   border-radius: 4px;
-  border: 1px solid var(--light-gray);
+  border: var(--result-input-border);
   outline: none;
-  font-weight: 600;
+  /* font-weight: 600; */
   font-family: "Roboto Mono", Courier, monospace;
   word-spacing: 3px;
   -webkit-appearance: none;
-}
-@keyframes result-input-box-effect {
-  from {
-    background: #fff;
-  }
-  to {
-    background: #fff;
-  }
-}
-.result-input-box.e {
-  animation: result-input-box-effect 0.4s;
 }
 .btn-wrapper {
   height: 100%;
@@ -132,10 +145,10 @@ ul {
 }
 @keyframes copy-clicked-btn {
   from {
-    background: white;
+    background: var(--bg-color);
   }
   to {
-    background: white;
+    background: var(--bg-color);
   }
 }
 .copy-btn.clicked {
@@ -267,7 +280,7 @@ h2 {
   height: 28px;
   border-radius: 100%;
   /* top: -4.4px; */
-  background: #fff;
+  background: var(--check-btn-face);
   position: absolute;
   /* left: 2.5px; */
   right: auto;
@@ -341,14 +354,13 @@ body.cursor-e-resize .opt-length-h2 {
   font-size: 1rem;
   font-family: "Roboto Mono", Courier, monospace;
   width: 200px;
-  font-weight: 600;
+  /* font-weight: 600; */
   -webkit-appearance: none;
   box-shadow: var(--box-shadow-1);
 }
 .opt-length input.invalid {
-  background: rgb(255, 235, 235);
-  color: red;
-  box-shadow: 1px 1px 2px 0.5px rgba(251, 215, 215, 0.854);
+  background: var(--invalid-bg);
+  color: var(--invalid-text);
 }
 
 /* option custom-letters */
@@ -358,6 +370,7 @@ body.cursor-e-resize .opt-length-h2 {
   border: none;
   border-radius: 4px;
   width: 300px;
+  height: 80px;
   min-width: 200px;
   max-width: 100%;
   min-height: 40px;

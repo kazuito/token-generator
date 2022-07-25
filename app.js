@@ -14,6 +14,14 @@ createApp({
         valid_in_url_symbol: "-_",
         custom: "",
       },
+      option_names: {
+        lowercase: "lowercase",
+        uppercase: "uppercase",
+        number: "number",
+        symbol: "symbol",
+        ex_ambiguous: "ex_ambiguous",
+        ex_unwise: "ex_unwise",
+      },
       options: {
         lowercase: true,
         uppercase: true,
@@ -90,9 +98,32 @@ createApp({
         if (opt_length_scroll_started) {
           this.token_length =
             Math.floor(init_value) + Math.round((e.pageX - start_x) / 3);
+          this.saveOption("token_length");
         }
       });
     },
+    saveOption: function (opt) {
+      let val;
+      if (opt == "token_length") {
+        val = this.token_length;
+      } else if (opt == "custom-letter") {
+        val = this.letters.custom;
+      } else {
+        val = this.options[opt];
+      }
+      localStorage.setItem("sm-option-" + opt, val);
+    },
+  },
+  mounted: function () {
+    for (o in this.options) {
+      let val = localStorage.getItem("sm-option-" + o);
+      if (val) this.options[o] = val.toLowerCase() == "true";
+      console.log(o, val);
+    }
+    this.token_length = Math.floor(
+      localStorage.getItem("sm-option-token_length")
+    );
+    this.letters.custom = localStorage.getItem("sm-option-custom-letter");
   },
   computed: {
     token_length_validation: function () {
