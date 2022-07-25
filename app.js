@@ -12,7 +12,6 @@ createApp({
         number: "0123456789",
         symbol: "!@#$%^&*()_+-=[]{};':\".,/>?`~\\|",
         valid_in_url_symbol: "-_",
-        valid_in_password_symbol: "~`!@#$%^&*()_-+={[}]|\\:;\"'<,>.?/",
         custom: "",
       },
       options: {
@@ -61,6 +60,11 @@ createApp({
         } else letters += this.letters.valid_in_url_symbol;
       }
       if (this.options.ex_ambiguous) letters = letters.replace(/[1lIoO0]/g, "");
+      if (this.options.ex_unwise)
+        letters = letters.replace(
+          /[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_]/g,
+          ""
+        );
       return letters;
     },
     getRnd: function (max) {
