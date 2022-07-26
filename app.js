@@ -30,6 +30,10 @@ createApp({
         ex_ambiguous: false,
         ex_unwise: false,
       },
+      settings: {
+        scheme: "default",
+        device_scheme: "light",
+      },
       tooltip_text_copy: "Copy",
     };
   },
@@ -113,6 +117,21 @@ createApp({
       }
       localStorage.setItem("sm-option-" + opt, val);
     },
+    setScheme: function (s) {
+      let scheme;
+      if (s == "default") {
+        this.settings.device_scheme =
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        scheme = this.settings.device_scheme;
+      } else {
+        scheme = this.settings.scheme;
+      }
+      $("html").attr("color-scheme", scheme);
+      localStorage.setItem("sm-setting-scheme", s);
+    },
   },
   mounted: function () {
     for (o in this.options) {
@@ -120,10 +139,19 @@ createApp({
       if (val) this.options[o] = val.toLowerCase() == "true";
       console.log(o, val);
     }
-    this.token_length = Math.floor(
-      localStorage.getItem("sm-option-token_length")
-    );
+    this.token_length =
+      Math.floor(localStorage.getItem("sm-option-token_length")) || 15;
     this.letters.custom = localStorage.getItem("sm-option-custom-letter");
+    this.settings.scheme =
+      localStorage.getItem("sm-setting-scheme") || "default";
+    this.setScheme(this.settings.scheme);
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (event) => {
+        this.settings.device_scheme = event.matches ? "dark" : "light";
+        this.setScheme(this.settings.device_scheme);
+      });
   },
   computed: {
     token_length_validation: function () {
@@ -137,6 +165,14 @@ createApp({
       if (this.token_length > 100000 || this.token_length <= 0) {
         return "invalid";
       } else return "valid";
+    },
+  },
+  watch: {
+    settings: {
+      handler: function (new_v, old_v) {
+        this.setScheme(this.settings.scheme);
+      },
+      deep: true,
     },
   },
 }).mount("#app");
