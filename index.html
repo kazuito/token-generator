@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" color-scheme="dark">
+<html lang="en" color-scheme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -128,11 +128,18 @@
         <div class="result-section">
           <div class="result-input-wrapper">
             <input
-              type="text"
+              :type="input_type"
               v-model="token_result"
               class="result-input-box"
               readonly
             />
+            <button class="result-visibility-btn" @click="toggleVisibility">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                <path
+                  d="M12 16q1.875 0 3.188-1.312Q16.5 13.375 16.5 11.5q0-1.875-1.312-3.188Q13.875 7 12 7q-1.875 0-3.188 1.312Q7.5 9.625 7.5 11.5q0 1.875 1.312 3.188Q10.125 16 12 16Zm0-1.8q-1.125 0-1.912-.788Q9.3 12.625 9.3 11.5t.788-1.913Q10.875 8.8 12 8.8t1.913.787q.787.788.787 1.913t-.787 1.912q-.788.788-1.913.788Zm0 4.8q-3.65 0-6.65-2.038-3-2.037-4.35-5.462 1.35-3.425 4.35-5.463Q8.35 4 12 4q3.65 0 6.65 2.037 3 2.038 4.35 5.463-1.35 3.425-4.35 5.462Q15.65 19 12 19Zm0-7.5Zm0 5.5q2.825 0 5.188-1.488Q19.55 14.025 20.8 11.5q-1.25-2.525-3.612-4.013Q14.825 6 12 6 9.175 6 6.812 7.487 4.45 8.975 3.2 11.5q1.25 2.525 3.612 4.012Q9.175 17 12 17Z"
+                />
+              </svg>
+            </button>
           </div>
           <div class="btn-wrapper">
             <button class="copy-btn" @click="copyToClipboard">
@@ -253,7 +260,7 @@
                     @change="saveOption(option_names.ex_unwise)"
                   />
                   <div class="label-wrapper">
-                    <label for="cb-unwise">Unwise symbols in URL</label>
+                    <label for="cb-unwise">Unwise symbols to use in URL</label>
                     <span class="opt-example unwise-tip">
                       Any symbol except - and _
                     </span>
@@ -278,14 +285,38 @@
                 @input="saveOption('token_length')"
               />
             </div>
-
             <div class="opt-custom">
               <h2>Custom Letters</h2>
               <textarea
                 placeholder="ABCDE12345@#&!?"
                 v-model="letters.custom"
                 @input="saveOption('custom-letter')"
+                @click="activateTextarea"
+                @mousedown="activateTextarea"
               ></textarea>
+              <div class="textarea-head">
+                <div class="textarea-btn-box">
+                  <div class="textarea-clear-btn" @click="clearTextarea">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path
+                        d="M7 21q-.825 0-1.412-.587Q5 19.825 5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413Q17.825 21 17 21ZM17 6H7v13h10ZM9 17h2V8H9Zm4 0h2V8h-2ZM7 6v13Z"
+                      />
+                    </svg>
+                    Clear
+                  </div>
+                  <div class="textarea-save-btn" @click="doneTextarea">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m9.55 18-5.7-5.7 1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4Z"
+                      />
+                    </svg>
+                    Done
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

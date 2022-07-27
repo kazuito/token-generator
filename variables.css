@@ -1,4 +1,4 @@
-:root {
+html[color-scheme="light"] {
   --header-bg-color: var(--bg-color);
   --popup-bg-color: #fbfbfb;
   --box-shadow-color: rgb(227, 227, 227);
@@ -16,6 +16,9 @@
   --invalid-text: rgb(242, 0, 0);
   --hover-bg: rgb(225, 233, 235);
   --curtain-color: rgba(20, 20, 20, 0.44);
+  --material-red: rgb(255, 42, 42);
+  --material-white: #fff;
+  --material-gray:gray;
 }
 
 html[color-scheme="dark"] {
@@ -33,6 +36,9 @@ html[color-scheme="dark"] {
   --invalid-bg: rgb(114, 66, 66);
   --invalid-text: rgb(250, 198, 198);
   --hover-bg: #303a3e;
-  --box-shadow-color: rgb(24, 24, 24);
+  --box-shadow-color: rgb(18, 66, 90);
   --curtain-color: rgba(20, 20, 20, 0.749);
+  --material-red: rgb(159, 17, 17);
+  --material-white: var(--primary-text-color);
+  --material-gray:gray;
 }

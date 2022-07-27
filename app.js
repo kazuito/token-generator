@@ -4,6 +4,9 @@ createApp({
   data() {
     return {
       token_length: 15,
+      visibility: {
+        state: 1,
+      },
       token: "",
       token_result: "",
       letters: {
@@ -43,9 +46,9 @@ createApp({
       $(".submit-btn").removeClass("clicked");
       $(".submit-btn").height();
       $(".submit-btn").addClass("clicked");
-      $(".result-input-box").removeClass("e");
-      $(".result-input-box").height();
-      $(".result-input-box").addClass("e");
+      $(".result-input-wrapper").removeClass("e");
+      $(".result-input-wrapper").height();
+      $(".result-input-wrapper").addClass("e");
     },
     generateToken: function () {
       this.token = "";
@@ -83,13 +86,21 @@ createApp({
       return Math.floor((Math.random() * 999999) % max);
     },
     copyToClipboard: function () {
-      $(".result-input-box").select();
-      document.execCommand("copy");
-      $(".result-input-box").val(this.token_result + " ");
-      $(".result-input-box").val(this.token_result);
+      navigator.clipboard.writeText(this.token_result).then(
+        function () {
+          /* clipboard successfully set */
+          $(".copy-btn").height();
+          $(".copy-btn").addClass("clicked");
+          $(".copy-btn .popup-tooltip").html("Copied!");
+          sto = setTimeout(() => {
+            $(".copy-btn").removeClass("clicked");
+            $(".copy-btn .popup-tooltip").html("Copy");
+          }, 1000);
+        },
+        function () {}
+      );
     },
     lengthMousedown: function (e) {
-      console.log("down");
       let start_x = e.pageX;
       let opt_length_scroll_started = true;
       $("body").addClass("cursor-e-resize");
@@ -132,12 +143,28 @@ createApp({
       $("html").attr("color-scheme", scheme);
       localStorage.setItem("sm-setting-scheme", s);
     },
+    toggleVisibility: function () {
+      this.visibility.state = !this.visibility.state;
+      localStorage.setItem("sm-setting-visibility", this.visibility.state);
+    },
+    activateTextarea: function (e) {
+      console.log(e.target);
+      e.target.classList.add("active");
+    },
+
+    clearTextarea: function () {
+      localStorage.setItem("sm-option-custom-letter", "");
+      this.letters.custom = "";
+      $("textarea.active").focus();
+    },
+    doneTextarea: function () {
+      $("textarea.active").removeClass("active");
+    },
   },
   mounted: function () {
     for (o in this.options) {
       let val = localStorage.getItem("sm-option-" + o);
       if (val) this.options[o] = val.toLowerCase() == "true";
-      console.log(o, val);
     }
     this.token_length =
       Math.floor(localStorage.getItem("sm-option-token_length")) || 15;
@@ -166,6 +193,9 @@ createApp({
         return "invalid";
       } else return "valid";
     },
+    input_type: function () {
+      return this.visibility.state ? "text" : "password";
+    },
   },
   watch: {
     settings: {
@@ -177,20 +207,18 @@ createApp({
   },
 }).mount("#app");
 
-$(".submit-btn,.copy-btn").click(function (e) {
+$(".submit-btn,.copy-btn,.result-visibility-btn,textarea").click(function (e) {
   e.preventDefault();
 });
 
-$(".copy-btn").click(function () {
-  $(".copy-btn").height();
-  $(".copy-btn").addClass("clicked");
-  $(".copy-btn .popup-tooltip").html("Copied!");
-  sto = setTimeout(() => {
-    $(".copy-btn").removeClass("clicked");
-    $(".copy-btn .popup-tooltip").html("Copy");
-  }, 1000);
-});
+$(".copy-btn").click(function () {});
 
 $(".copy-btn").hover(function () {
   $(this).toggleClass("hover");
+});
+
+$(document).on("keydown", (e) => {
+  if (e.originalEvent.code == "Escape") {
+    $("details[open]").removeAttr("open");
+  }
 });
