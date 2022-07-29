@@ -29,7 +29,11 @@ textarea {
 
 input[type="number"]:focus,
 textarea:focus {
-  /* outline: 2px var(--primary-color) solid !important; */
+  box-shadow: none;
+}
+
+input[type="number"]:focus,
+textarea:focus {
   box-shadow: 0 0 0 2px var(--primary-color) !important;
 }
 
@@ -81,22 +85,29 @@ summary::marker {
   content: "";
   display: none !important;
 }
-.settings-box > summary {
+.summary-inner {
   cursor: pointer;
   list-style: none;
+  padding: 8px;
+  border-radius: 50%;
 }
-.settings-box > summary::-webkit-details-marker {
+.summary-inner:hover {
+  background: var(--hover-bg-color);
+}
+.settings-summary::-webkit-details-marker {
   display: none;
 }
-.settings-box > summary path {
-  fill: var(--primary-text-color);
+.settings-summary svg {
+  height: 24px;
+  width: 24px;
+  vertical-align: bottom;
 }
-.settings-box > summary:hover path {
-  fill: #7e7e7e;
+.settings-summary path {
+  fill: var(--primary-text-color);
 }
 @keyframes show-settings {
   from {
-    transform: translateY(5%);
+    transform: translateY(3%);
     opacity: 0;
   }
   to {
@@ -137,7 +148,7 @@ summary::marker {
   padding: 10px 0;
 }
 .menu-radio-box > label:hover {
-  background: var(--hover-bg);
+  background: var(--settings-hover-bg-color);
 }
 .scheme-icon {
   margin-left: auto;
@@ -193,38 +204,22 @@ main {
 }
 @keyframes result-input-effect {
   from {
-    left: 0;
-    width: 0;
-  }
-  20% {
-    left: 0;
-    width: 210px;
-  }
-  80% {
-    left: calc(100% - 200px);
-    width: 200px;
-  }
-  to {
-    left: 100%;
-    width: 0px;
+    color: var(--text-box-bg);
   }
 }
-.result-input-wrapper.e::before {
-  content: "";
-  height: 1px;
-  background: var(--primary-color);
-  position: absolute;
-  bottom: 0px;
-  animation: result-input-effect 0.3s linear;
-  opacity: 0.7;
+.result-input-wrapper.e input[type="password"] {
+  animation: result-input-effect 1.4s forwards;
+  color: var(--primary-text-color);
 }
-.result-visibility-btn {
+.result-visibility-btn-box {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   position: absolute;
   right: 0px;
   top: 4px;
   background: var(--text-box-bg);
   border: none;
-  cursor: pointer;
   width: 70px;
   height: 42px;
   border-radius: 4px;
@@ -235,6 +230,18 @@ main {
     var(--text-box-bg) 100%
   );
 }
+.result-visibility-btn {
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  background: var(--text-box-bg);
+}
+.result-visibility-btn:hover {
+  background: var(--on-text-box-hover-bg-color);
+}
 @keyframes visibility-off {
   from {
     top: 17px;
@@ -243,24 +250,25 @@ main {
     height: 0;
   }
   to {
-    width: 26px;
+    width: 23px;
   }
 }
-input[type="password"] + .result-visibility-btn::after {
+input[type="password"]
+  + .result-visibility-btn-box
+  > .result-visibility-btn::after {
   animation: visibility-off 0.15s forwards;
   content: "";
   height: 1px;
-  background: var(--text-box-bg);
+  background: inherit;
   border-bottom: 2.3px solid var(--secondary-text-color);
   position: absolute;
-  top: 19.3px;
-  right: 11px;
+  top: 18.5px;
+  right: 13px;
   z-index: 10;
   transform: rotate(40deg);
 }
 .result-visibility-btn > svg {
-  margin-top: 4px;
-  margin-left: 20px;
+  vertical-align: bottom;
 }
 .result-visibility-btn path {
   fill: var(--secondary-text-color);
@@ -543,15 +551,13 @@ body.cursor-e-resize .opt-length-h2 {
 .opt-length input {
   border: none;
   border-radius: 4px;
-  height: 40px;
-  width: 100%;
   outline: none;
   padding-left: 8px;
   font-size: 1rem;
   font-family: "Roboto Mono", Courier, monospace;
+  height: 40px;
   width: 200px;
   -webkit-appearance: none;
-  box-shadow: var(--box-shadow-1);
   display: block;
   z-index: 1;
 }

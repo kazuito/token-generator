@@ -14,11 +14,13 @@ html[color-scheme="light"] {
   /* 1px 1px 2px 1px rgba(207, 207, 207, 0.257); */
   --invalid-bg: rgb(255, 223, 223);
   --invalid-text: rgb(242, 0, 0);
-  --hover-bg: rgb(225, 233, 235);
+  --hover-bg-color: rgb(246, 246, 246);
+  --on-text-box-hover-bg-color: rgb(233, 233, 233);
+  --settings-hover-bg-color: rgb(237, 243, 244);
   --curtain-color: rgba(20, 20, 20, 0.44);
   --material-red: rgb(255, 42, 42);
   --material-white: #fff;
-  --material-gray:gray;
+  --material-gray: gray;
 }
 
 html[color-scheme="dark"] {
@@ -35,10 +37,12 @@ html[color-scheme="dark"] {
   --secondary-text-color: #9b9b9b;
   --invalid-bg: rgb(114, 66, 66);
   --invalid-text: rgb(250, 198, 198);
-  --hover-bg: #303a3e;
+  --hover-bg-color: rgba(255, 255, 255, 0.13);
+  --on-text-box-hover-bg-color: rgb(72, 72, 72);
+  --settings-hover-bg-color: #303a3e;
   --box-shadow-color: rgb(18, 66, 90);
   --curtain-color: rgba(20, 20, 20, 0.749);
   --material-red: rgb(159, 17, 17);
   --material-white: var(--primary-text-color);
-  --material-gray:gray;
+  --material-gray: gray;
 }
