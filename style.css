@@ -250,7 +250,7 @@ main {
     height: 0;
   }
   to {
-    width: 23px;
+    width: 24px;
   }
 }
 input[type="password"]
@@ -262,8 +262,8 @@ input[type="password"]
   background: inherit;
   border-bottom: 2.3px solid var(--secondary-text-color);
   position: absolute;
-  top: 18.5px;
-  right: 13px;
+  top: 18.7px;
+  right: 11.5px;
   z-index: 10;
   transform: rotate(40deg);
 }

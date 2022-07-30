@@ -146,6 +146,7 @@ createApp({
     toggleVisibility: function () {
       this.visibility.state = !this.visibility.state;
       localStorage.setItem("sm-setting-visibility", this.visibility.state);
+      $(".result-input-wrapper").removeClass("e");
     },
     activateTextarea: function (e) {
       console.log(e.target);

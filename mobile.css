@@ -14,7 +14,7 @@
   }
   /* header */
   header {
-    padding-right: 24px;
+    padding-right: calc(2.5% + 4px);
   }
   details {
     -webkit-appearance: none;
