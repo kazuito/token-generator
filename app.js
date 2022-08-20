@@ -87,7 +87,7 @@ createApp({
       }
       if (this.options.ex_unwise) {
         letters = letters.replace(
-          /[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_]/g,
+          /[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\-_]/g,
           ""
         );
       }
