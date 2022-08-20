@@ -66,20 +66,31 @@ createApp({
     getLetters: function () {
       let letters = "";
       letters += this.letters.custom;
-      if (this.options.lowercase) letters += this.letters.lowercase;
-      if (this.options.uppercase) letters += this.letters.uppercase;
-      if (this.options.number) letters += this.letters.number;
-      if (this.options.symbol) {
-        if (!this.options.ex_unwise) {
-          letters += this.letters.symbol;
-        } else letters += this.letters.valid_in_url_symbol;
+      if (this.options.lowercase) {
+        letters += this.letters.lowercase;
       }
-      if (this.options.ex_ambiguous) letters = letters.replace(/[1lIoO0]/g, "");
-      if (this.options.ex_unwise)
+      if (this.options.uppercase) {
+        letters += this.letters.uppercase;
+      }
+      if (this.options.number) {
+        letters += this.letters.number;
+      }
+      if (this.options.symbol) {
+        if (this.options.ex_unwise === false) {
+          letters += this.letters.symbol;
+        } else {
+          letters += this.letters.valid_in_url_symbol;
+        }
+      }
+      if (this.options.ex_ambiguous) {
+        letters = letters.replace(/[1lIoO0]/g, "");
+      }
+      if (this.options.ex_unwise) {
         letters = letters.replace(
           /[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_]/g,
           ""
         );
+      }
       return letters;
     },
     getRnd: function (max) {
@@ -119,18 +130,18 @@ createApp({
     },
     saveOption: function (opt) {
       let val;
-      if (opt == "token_length") {
+      if (opt === "token_length") {
         val = this.token_length;
-      } else if (opt == "custom-letter") {
+      } else if (opt === "custom-letter") {
         val = this.letters.custom;
       } else {
         val = this.options[opt];
       }
-      localStorage.setItem("sm-option-" + opt, val);
+      localStorage.setItem(`sm-option-${opt}`, val);
     },
     setScheme: function (s) {
       let scheme;
-      if (s == "default") {
+      if (s === "default") {
         this.settings.device_scheme =
           window.matchMedia &&
           window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -164,8 +175,10 @@ createApp({
   },
   mounted: function () {
     for (o in this.options) {
-      let val = localStorage.getItem("sm-option-" + o);
-      if (val) this.options[o] = val.toLowerCase() == "true";
+      let val = localStorage.getItem(`sm-option-${o}`);
+      if (val) {
+        this.options[o] = val.toLowerCase() === "true";
+      }
     }
     this.token_length =
       Math.floor(localStorage.getItem("sm-option-token_length")) || 15;
@@ -184,15 +197,20 @@ createApp({
   computed: {
     token_length_validation: function () {
       let tl = this.token_length;
-      if (tl <= 0) this.token_length = 0;
-      if (tl >= 1) this.token_length = tl.toString().replace(/^0*/, "");
-      if (this.token_length.toString().match(/\./))
+      if (tl <= 0) {
+        this.token_length = 0;
+      }
+      if (tl >= 1) {
+        this.token_length = tl.toString().replace(/^0*/, "");
+      }
+      if (this.token_length.toString().match(/\./)) {
         this.token_length = tl.toString().replace(/\./g, "");
-      {
       }
       if (this.token_length > 100000 || this.token_length <= 0) {
         return "invalid";
-      } else return "valid";
+      } else {
+        return "valid";
+      }
     },
     input_type: function () {
       return this.visibility.state ? "text" : "password";
@@ -200,7 +218,7 @@ createApp({
   },
   watch: {
     settings: {
-      handler: function (new_v, old_v) {
+      handler: function () {
         this.setScheme(this.settings.scheme);
       },
       deep: true,
@@ -219,7 +237,7 @@ $(".copy-btn").hover(function () {
 });
 
 $(document).on("keydown", (e) => {
-  if (e.originalEvent.code == "Escape") {
+  if (e.originalEvent.code === "Escape") {
     $("details[open]").removeAttr("open");
   }
 });
